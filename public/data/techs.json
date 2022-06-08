@@ -12,5 +12,12 @@
         "url": "http://www.angular.io",
         "stars": 4.5,
         "logo": "angular.jpg"
+    },    
+    {
+        "id":3,
+        "tech": "VUE",
+        "url": "http://www.vuejs.io",
+        "stars": 4.77,
+        "logo": "vue.jpg"
     }
 ]
