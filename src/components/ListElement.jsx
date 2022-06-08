@@ -1,11 +1,47 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 
 const ListElement = props => {
-    return (
-        <>
-            <p>List Element!</p>
-        </>
-    );
+
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [countries, setCountries] = useState([]);
+
+    useEffect(() => {
+        fetch("https://restcountries.com/v3.1/all")
+            .then(res => res.json())
+            .then(
+                (data) => {
+                    setIsLoaded(true);
+                    setCountries(data);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
+      }, []);
+
+      if (error) {
+        return <tr><td>Error: {error.message}</td></tr>;
+    } else if (!isLoaded) {
+        return <tr><td>Loading...</td></tr>;
+    } else {
+        return (
+            <>
+                {countries.map( (country,index) => {
+                        return (
+                        <tr key={index}>
+                        <th  scope="row">{country.name.common}</th>
+                        <td>{country.region}</td>
+                        <td>{country.subregion}</td>
+                        <td><img src={country.flags.png} style={{ maxWidth: '60px'}} alt={country.name.common} title={country.name.common}/></td>
+                        </tr>
+                    );
+                }
+            )}
+            </>
+        );
+    }
 }
 
 export default ListElement;
