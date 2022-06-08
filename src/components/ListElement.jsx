@@ -5,6 +5,7 @@ const ListElement = props => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [countries, setCountries] = useState([]);
+    const [countriesOri, setCountriesOri] = useState([]);
 
     useEffect(() => {
         fetch("https://restcountries.com/v3.1/all")
@@ -13,6 +14,7 @@ const ListElement = props => {
                 (data) => {
                     setIsLoaded(true);
                     setCountries(data);
+                    setCountriesOri(data);
                 },
                 (error) => {
                     setIsLoaded(true);
@@ -20,6 +22,15 @@ const ListElement = props => {
                 }
             )
       }, []);
+
+      useEffect(() => {
+        //console.log(countriesOri);
+        if (props.search && props.search.length>0) {
+            setCountries(countriesOri.filter(country => country.name.common.toLowerCase().includes(props.search.toLowerCase())));
+        } else {
+            setCountries(countriesOri);
+        }
+    },[props.search])
 
       if (error) {
         return <tr><td>Error: {error.message}</td></tr>;

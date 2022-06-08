@@ -1,11 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
 
 import ListElement from "../components/ListElement";
+import Input from "../components/Input";
 
 const List = props => {
 
+    const [search, setSearch] = useState(undefined);
+
+    function aoEscrever(e) {
+        setSearch(e.target.value);
+    }
+
     return (
         <>
+            <Input id="search" name="search" label="Search" value={search} aoEscrever={aoEscrever} />
             <table className="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -16,7 +24,7 @@ const List = props => {
                     </tr>
                 </thead>
                 <tbody>
-                    <ListElement />
+                    <ListElement search={search}/>
                 </tbody>
             </table>
         </>
